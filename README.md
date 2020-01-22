@@ -30,7 +30,7 @@ Example:
 
 Allows acess from localhost and all machines on the 192.168.* networks
 
-### filterdeny
+### Filterdeny
 
 Turns FilterDefaultDeny on or off to switch from blacklist (off) to whitelist (on).
 
