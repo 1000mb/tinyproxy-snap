@@ -6,6 +6,7 @@ TIMEOUT="$(snapctl get timeout)"
 FILTERS="$(snapctl get filters)"
 FURLS="$(snapctl get filterurls)"
 ALLOW="$(snapctl get allow)"
+FILTERDENY="$(snapctl get filterdeny)"
 
 # set defaults for empty values
 [ -n "$PORT" ] || snapctl set port=8080
@@ -13,6 +14,7 @@ ALLOW="$(snapctl get allow)"
 [ -n "$FILTERS" ] || snapctl set filters=""
 [ -n "$FURLS" ] || snapctl set filterurls="off"
 [ -n "$ALLOW" ] || snapctl set allow="127.0.0.1"
+[ -n "$FILTERDENY" ] || snapctl set filterdeny="off"
 
 ERRFILE="$SNAP/usr/share/tinyproxy/default.html"
 STATFILE="$SNAP/usr/share/tinyproxy/stats.html"
@@ -23,6 +25,10 @@ PIDFILE="$SNAP_DATA/tinyproxy.pid"
 # toggle Filterurls
 URLVAL="#FilterURLs On"
 [ "$FURLS" = "off" ] || URLVAL="FilterURLs On"
+
+# toggle FilterDefaultDeny
+URLVAL="#FilterDefaultDeny On"
+[ "$FILTERDENY" = "off" ] || URLVAL="FilterDefaultDeny On"
 
 # parse "allow" list into proper format
 ALLOW="$(echo "$ALLOW" | sed 's/,/\\nAllow /g;s/^/Allow /')"
@@ -38,6 +44,7 @@ sed -e "s;^Port [0-9]*;Port $PORT;"\
     -e "s;^#Filter .*;Filter \"$FILTERFILE\";"\
     -e "s;^Allow 127.0.0.1;$ALLOW;"\
     -e "s;^[#]*FilterURLs On;$URLVAL;"\
+    -e "s;^[#]*FilterDefaultDeny On;$URLVAL;"\
     -e "s;^PidFile .*;PidFile \"$PIDFILE\";" $SNAP/etc/tinyproxy.conf >$SNAP_DATA/tinyproxy.conf
 
 echo "$FILTERS" | sed 's/ /\n/;s/,/\n/' >"$FILTERFILE"

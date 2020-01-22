@@ -13,6 +13,7 @@ To see the current configuratiion use:
 $ sudo snap get tinyproxy-ogra
 Key         Value
 allow       127.0.0.1
+filterdeny  off
 filters
 filterurls  off
 port        8080
@@ -28,6 +29,10 @@ Example:
 ```sudo snap set tinyproxy-ogra allow="127.0.0.1,192.168.0.0/16"```
 
 Allows acess from localhost and all machines on the 192.168.* networks
+
+### filterdeny
+
+Turns FilterDefaultDeny on or off to switch from blacklist (off) to whitelist (on).
 
 ### Filters
 
